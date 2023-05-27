@@ -40,6 +40,7 @@ let item = {
     "otp" : otp
 }
 
+//-----saving to db----
 let data = new otpModel(item)
     data.save()
 
@@ -75,6 +76,15 @@ const transport = nodemailer.createTransport({
     }).catch(err => console.log(err));
   };
 
+
+  app.post('/api/checkotp', async(req,res)=>{
+    let data = await otpModel.findOne(req.body)
+    if((!data)){
+      res.json({msg: "Invalid Input"})  
+  }else{
+    res.json({msg:'OTP Verified'})
+  }
+  })
 
 
 app.listen(3906,()=>{
